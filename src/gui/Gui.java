@@ -1,6 +1,8 @@
 package gui;
 
 
+import compilador.lexico.AnalisisLexico;
+import compilador.sintactico.Sintactico;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -15,7 +17,7 @@ import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.*;
 
-public class Main extends Application {
+public class Gui extends Application {
     Stage ventana;
     MenuBar menuBar;
     BorderPane root;
@@ -24,7 +26,9 @@ public class Main extends Application {
     CodeArea codeArea = new CodeArea();
     TableView<TokenT> tablaSimbolos;
     File archivo;
-
+    AnalisisLexico aLexico = new AnalisisLexico();
+    Sintactico aSintactico = new Sintactico(null);
+    final String ok = "-fx-background-color:#58FA58",error= "-fx-background-color:#B43104",def="-fx-background-color:#FFFFFF";
     @Override
     public void start(Stage primaryStage) throws Exception{
         ventana = primaryStage;
@@ -51,8 +55,6 @@ public class Main extends Application {
         btnLexico.setDefaultButton(false);
         btnSemantico.setDefaultButton(false);
         btnSintactico.setDefaultButton(false);
-        btnLexico.setStyle("-fx-background-color:#FF0000");
-        btnSemantico.setStyle("-fx-background-color:#5DFF00");
         HBox  hBoxButtons = new HBox();
         hBoxButtons.setSpacing(5);
         VBox pnlIzq = new VBox();
@@ -142,6 +144,8 @@ public class Main extends Application {
                 PrintWriter pw = new PrintWriter(archivo);
                 pw.print(data);
                 pw.close();
+                String path = archivo.getPath();
+                archivo = new File(path);
                 alert.setContentText("Guardado con exito");
             }catch (IOException io){
                 alert.setAlertType(Alert.AlertType.WARNING);
@@ -179,11 +183,42 @@ public class Main extends Application {
     {
         Menu menu = new Menu("Compilar");
         MenuItem run = new MenuItem("run");
+        run.setOnAction(event -> {
+            run();
+        });
         MenuItem lexico = new MenuItem("Lexico");
         MenuItem sintactico = new MenuItem("sintactico");
         MenuItem semantico = new MenuItem("semantico");
         menu.getItems().addAll(run);
         return menu;
+    }
+    void run(){
+        salida.clear();
+        btnSintactico.setStyle(null);
+        btnLexico.setStyle(null);
+        if(archivo != null)
+        {
+            aLexico.analizar(archivo);
+            if(aLexico.getError().equals(""))
+            {
+                btnLexico.setStyle(ok);
+                aSintactico.setTokens(aLexico.getTb().getTk());
+                aSintactico.instrucciones();
+                if(aSintactico.getError().equals("")){
+                    btnSintactico.setStyle(ok);
+                }else{
+                    btnSintactico.setStyle(error);
+                    salida.setText(aSintactico.getError());
+                }
+            }else{
+                btnLexico.setStyle(error);
+                salida.setText(aLexico.getError());
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Debes guardar el archivo o abrir uno");
+            alert.showAndWait();
+        }
     }
     public static void main(String[] args) {
         launch(args);

@@ -17,6 +17,22 @@ public class Sintactico {
         this.tokens = tokens;
     }
 
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     public void instrucciones (){
         i++;
             Token tk = (i < tokens.size()) ? tokens.get(i) : null;
@@ -32,7 +48,8 @@ public class Sintactico {
                 {
                     return;
                 }else{
-                        error +=  "Se esperaba }";
+                    tk = tokens.get(i-1);
+                        error +="\n Se esperaba } linea: "+tk.linea+" posicion: "+tk.posicion;
                 }
             }else if(tk != null && tk.getLexema().equals("si"))
             {
@@ -42,15 +59,16 @@ public class Sintactico {
                 if(tk != null && tk.getLexema().equals("{"))
                     instrucciones();
                 else{
-                    error+= "Se esperaba {";
+                    tk = tokens.get(i-1);
+                    error +="\n Se esperaba { linea: "+tk.linea+" posicion: "+tk.posicion;
                 }
                 tk = (i < tokens.size()) ? tokens.get(i) : null;
                 if(tk != null && tk.getLexema().equals("}"))
                 {
                     return;
                 }else{
-                    error +=  "Se esperaba }";
-
+                    tk = tokens.get(i-1);
+                    error +="\n Se esperaba } linea: "+tk.linea+" posicion: "+tk.posicion;
                 }
 
             }else if(tk != null && tk.getTipo().equals("Tipo_dato"))
@@ -73,7 +91,8 @@ public class Sintactico {
             valor();
             return;
         }else{
-            error+="\n se esperaba => ";
+            tk = tokens.get(i-1);
+            error +="\n Se esperaba => linea: "+tk.linea+" posicion: "+tk.posicion;
         }
     }
     void valor(){
@@ -86,15 +105,20 @@ public class Sintactico {
             tk = (i < tokens.size()) ? tokens.get(i) : null;
             if(tk.getLexema().equals(";"))
                 return;
-            else
-                error+= "\n se esperaba ;";
+            else{
+                tk = tokens.get(i-1);
+                error +="\n Se esperaba ; linea: "+tk.linea+" posicion: "+tk.posicion;
+            }
+
         }else if(tk != null && tk.getLexema().equals("verdadero") || tk.getLexema().equals("falso") ){
             i++;
             tk = (i < tokens.size()) ? tokens.get(i) : null;
             if(tk.getLexema().equals(";"))
                 return;
-            else
-                error+= "\n se esperaba ;";
+            else{
+                tk = tokens.get(i-1);
+                error +="\n Se esperaba ; linea: "+tk.linea+" posicion: "+tk.posicion;
+            }
         }else if( tk != null && tk.getTipo().equals("numero_real")){
             i++;
             tk = (i < tokens.size()) ? tokens.get(i) : null;
@@ -104,11 +128,13 @@ public class Sintactico {
             }else if ( tk != null && tk.getLexema().equals(";")){
                 return;
             }else {
-                error+= "Se esperaba ;";
+                tk = tokens.get(i-1);
+                error +="\n Se esperaba ; linea: "+tk.linea+" posicion: "+tk.posicion;
             }
         }else
         {
-            error+= "Se esperaba tipo de dato";
+            tk = tokens.get(i-1);
+            error +="\n Se esperaba tipo de dato linea: "+tk.linea+" posicion: "+tk.posicion;
         }
         return;
     }
@@ -128,7 +154,8 @@ public class Sintactico {
             }else if(tk != null && tk.getLexema().equals(";")){
                 return;
             }else{
-                error+= "Se esperaba ;";
+                tk = tokens.get(i-1);
+                error +="\n Se esperaba ; linea: "+tk.linea+" posicion: "+tk.posicion;
             }
         }
     }
@@ -145,10 +172,12 @@ public class Sintactico {
             {
                 return;
             }else{
-                error+="Se esperaba ;";
+                tk = tokens.get(i-1);
+                error +="\n Se esperaba ; linea: "+tk.linea+" posicion: "+tk.posicion;
             }
         }else{
-            error+="Se esperaba un identificador";
+            tk = tokens.get(i-1);
+            error +="\n Se esperaba identificador linea: "+tk.linea+" posicion: "+tk.posicion;
         }
         return;
     }
@@ -171,11 +200,13 @@ public class Sintactico {
             {
                 return;
             }else{
-                error+="\n se esperaba )";
+                tk = tokens.get(i-1);
+                error +="\n Se esperaba ) linea: "+tk.linea+" posicion: "+tk.posicion;
             }
 
         }else{
-            error+= "\n se esperaba (";
+            tk = tokens.get(i-1);
+            error +="\n Se esperaba ( linea: "+tk.linea+" posicion: "+tk.posicion;
         }
     }
     void mientras(){
@@ -195,9 +226,17 @@ public class Sintactico {
 
                     return;
                 }else
-                    error+="Se esperaba identificador | numero real | booleano \n";
+                {
+                    tk = tokens.get(i-1);
+                    error +="\n Se esperaba identificador|numero real | booleano linea: "+tk.linea+" posicion: "+tk.posicion;
+                }
+
             }else
-                error+="Se esperaba operador logico\n";
+            {
+                tk = tokens.get(i-1);
+                error +="\n Se esperaba operador logico linea: "+tk.linea+" posicion: "+tk.posicion;
+            }
+
 
         }
         bandera = false;

@@ -8,14 +8,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Principal
+public class Test
 {
     public static  void main (String... arg)
     {
-        Sintactico s = new Sintactico(tokensAsignacion());
-        s.instrucciones();
-        System.out.println(s.error);
-
+        //Sintactico s = new Sintactico(tokensAsignacion());
+        //s.instrucciones();
+        //System.out.println(s.error);
+        AnalisisLexico al = new AnalisisLexico();
+        File f = new File("1.lh");
+        al.analizar(f);
     }
     static List<Token> tokensSentencias (){
         List<Token> tokens = new ArrayList<>();

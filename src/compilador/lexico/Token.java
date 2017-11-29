@@ -19,6 +19,8 @@ public class Token {
 	private int idN;
 	private String tipo;
 	private String lexema;
+	public int linea;
+	public int posicion;
 	
 	public Token(int id, String tipo, String lexema) {
 		super();

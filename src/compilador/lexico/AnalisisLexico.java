@@ -9,8 +9,25 @@ import java.util.Scanner;
 
 
 public class AnalisisLexico {
-	String error = "";
-	TablaSimbolos tb = new TablaSimbolos();
+	private String error = "";
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public TablaSimbolos getTb() {
+		return tb;
+	}
+
+	public void setTb(TablaSimbolos tb) {
+		this.tb = tb;
+	}
+
+	private TablaSimbolos tb = new TablaSimbolos();
 
 	Cadenas isCadena = new Cadenas();
 	Delimitadores isDelimitador = new Delimitadores();
@@ -20,24 +37,36 @@ public class AnalisisLexico {
 	OperadoresLogicos isOLogico = new OperadoresLogicos();
 	PalabrasReservadasE isPalabraR = new PalabrasReservadasE();
 	PalabrasReservadasT isTipoDato = new PalabrasReservadasT();
-
+	int linea;
+	int posicion;
 	public int id = 0;
 	public void analizar(File archivo)
 	{
 		Scanner lector;
+		String lineaT = "";
 		Token tk = null;
+
 		try {
 			lector = new Scanner(archivo);
-			while (lector.hasNext()) {
-				String cadena = lector.next();
-				tk = generarToken(cadena);
-				if (tk != null) {
-					tk.setId(++id);
-					tb.agregar(tk);
-				} else {
-					error += "Error lexico: " + cadena + "\n";
-				}
+			while (lector.hasNextLine()) {
 
+				lineaT = lector.nextLine();
+				linea++;
+				int i = 0;
+				String cadenas[] = lineaT.split(" ");
+				for(String cadena : cadenas)
+				{
+					i++;
+					tk = generarToken(cadena);
+					if (tk != null) {
+						tk.setId(++id);
+						tb.agregar(tk);
+						tk.linea = linea;
+						tk.posicion = i;
+					} else {
+						error += "\n Error lexico: " + cadena+ " posicion: " + i +" linea: "+linea ;
+					}
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
