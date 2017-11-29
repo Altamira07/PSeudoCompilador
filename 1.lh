@@ -1,0 +1,13 @@
+Cadena Valor => 123.34
+mientras ( verdadero )
+{
+   imprime 'adasd'
+   imprime 'Hola'
+}
+si ( Valor ) entonces
+{
+imprime 12314
+}
+
+a ver a ver
+hhehe

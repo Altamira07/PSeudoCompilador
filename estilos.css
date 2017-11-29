@@ -1,0 +1,9 @@
+.ok
+{
+    -fx-background-color:#5DFF00;
+}
+
+.fail
+{
+    -fx-background-color:#FF2D00;
+}
