@@ -1,6 +1,6 @@
 package gui;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXMessageDialog;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -185,8 +185,6 @@ public class Main extends Application {
         menu.getItems().addAll(run);
         return menu;
     }
-
-
     public static void main(String[] args) {
         launch(args);
     }
