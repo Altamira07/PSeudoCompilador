@@ -1,6 +1,7 @@
 package compilador.lexico.automatas;
 
-import analizador.lexico.Token;
+
+import compilador.lexico.Token;
 
 public class PalabrasReservadasE extends Automata {
 

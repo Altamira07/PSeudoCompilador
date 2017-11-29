@@ -1,6 +1,7 @@
 package compilador.lexico.automatas;
 
-import analizador.lexico.Token;
+
+import compilador.lexico.Token;
 
 /**
  * Palabras reservadas para tipo de datos

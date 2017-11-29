@@ -1,8 +1,9 @@
 package compilador.lexico.automatas;
 
-import analizador.lexico.Token;
 
-public class OperadoresLogicos extends Automata 
+import compilador.lexico.Token;
+
+public class OperadoresLogicos extends Automata
 {
 
 	@Override

@@ -22,12 +22,12 @@ public class AnalisisLexico {
 	PalabrasReservadasT isTipoDato = new PalabrasReservadasT();
 
 	public int id = 0;
-
-	public void analizar(String ruta) {
+	public void analizar(File archivo)
+	{
 		Scanner lector;
 		Token tk = null;
 		try {
-			lector = new Scanner(new File(ruta));
+			lector = new Scanner(archivo);
 			while (lector.hasNext()) {
 				String cadena = lector.next();
 				tk = generarToken(cadena);
@@ -35,7 +35,7 @@ public class AnalisisLexico {
 					tk.setId(++id);
 					tb.agregar(tk);
 				} else {
-					error += "Error lexico" + cadena + "\n";
+					error += "Error lexico: " + cadena + "\n";
 				}
 
 			}
@@ -45,6 +45,7 @@ public class AnalisisLexico {
 		}
 		tb.imprimeTabla();
 		System.out.println(error);
+
 	}
 
 	public void linea(String linea) {
