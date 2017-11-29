@@ -53,26 +53,33 @@ public class AnalisisLexico {
 				lineaT = lector.nextLine();
 				linea++;
 				int i = 0;
-				String cadenas[] = lineaT.split(" ");
-				for(String cadena : cadenas)
-				{
-					i++;
-					tk = generarToken(cadena);
-					if (tk != null) {
-						tk.setId(++id);
-						tb.agregar(tk);
-						tk.linea = linea;
-						tk.posicion = i;
-					} else {
-						error += "\n Error lexico: " + cadena+ " posicion: " + i +" linea: "+linea ;
-					}
-				}
-			}
+                if(!lineaT.equals(""))
+                {
+                    String cadenas[] = lineaT.split(" ");
+                    for(String cadena : cadenas)
+				    {
+                        i++;
+                        tk = generarToken(cadena);
+                        System.out.print(cadena);
+                        if (tk != null) {
+                            tk.setId(++id);
+
+                            tb.agregar(tk);
+                            tk.linea = linea;
+                            tk.posicion = i;
+                        } else {
+                            error += "\n Error lexico: " + cadena+ " posicion: " + i +" linea: "+linea ;
+
+                        }
+				    }
+                }
+                System.out.println();
+            }
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		tb.imprimeTabla();
+        //tb.imprimeTabla();
 		System.out.println(error);
 
 	}
@@ -178,9 +185,8 @@ public class AnalisisLexico {
 		} else if ((tk = isReal.analizar(cadena.toCharArray(), 0)) != null) {
 			tk.setIdN(4);
 			tk.setTipo("numero_real");
-			return tk;
+            return tk;
 		}
-
 		return null;
 	}
 }

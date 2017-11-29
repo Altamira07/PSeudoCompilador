@@ -2,6 +2,7 @@ package compilador;
 
 import compilador.lexico.AnalisisLexico;
 import compilador.lexico.Token;
+import compilador.lexico.automatas.NumerosReales;
 import compilador.sintactico.Sintactico;
 
 import java.io.File;
@@ -12,12 +13,22 @@ public class Test
 {
     public static  void main (String... arg)
     {
-        //Sintactico s = new Sintactico(tokensAsignacion());
+       analisisTest();
+    }
+
+    static void analisisTest()
+    {
+        Sintactico s = new Sintactico(tokensAsignacion());
         //s.instrucciones();
         //System.out.println(s.error);
         AnalisisLexico al = new AnalisisLexico();
         File f = new File("1.lh");
         al.analizar(f);
+        System.out.println(al.getError());
+        al.getTb().imprimeTabla();
+        s.setTokens(al.getTb().getTk());
+        s.analizar();
+        System.out.println(s.getError());
     }
     static List<Token> tokensSentencias (){
         List<Token> tokens = new ArrayList<>();

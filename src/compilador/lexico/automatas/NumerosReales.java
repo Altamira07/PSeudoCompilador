@@ -11,46 +11,52 @@ public class NumerosReales extends Automata
 	}
 	public Token q0()
 	{
-		inicio = 0;
-		if(iterador < valores.length)
-		{
-			if(valores[iterador] == '.')
-			{
-				iterador++;
-				return q2();
-			}
-			for(int i = 0 ; i < transicion.length; i++)
-			{
-				if(transicion[i] == valores[iterador])
-				{
-					iterador++;
-					return q0();
-				}
-			}
-			return null;
-		}
-		return generarToken();
+	    if(iterador < valores.length)
+	        for(int i = 0 ; i < transicion.length;i++)
+            {
+                if(transicion[i] == valores[iterador])
+                {
+                    return q1();
+                }
+            }
+	    return null;
 	}
 	
 
 	
-	public Token q2()
+	public Token q1()
 	{
-		if(iterador < valores.length )
-		{
-			for(int i = 0; i < transicion.length; i++)
-			{
-				if(transicion[i] == valores[iterador])
-				{
-					iterador++;
-					return q2();
-				}
-			}
-			return null;
-		}if ( valores[iterador-1] == '.')
-			return null;		
-		return generarToken();
+	    iterador++;
+	    if(iterador<valores.length)
+        {
+            if(valores[iterador] == '.') {
+                return q2();
+            }
+            for(int i = 0 ; i < transicion.length;i++)
+            {
+                if(transicion[i] == valores[iterador])
+                {
+                    return q1();
+                }
+            }
+        }
+	    return null;
 	}
-	
+    public Token q2()
+    {
+        iterador++;
+        if(iterador<valores.length)
+        {
+            for(int i =0; i<transicion.length;i++)
+            {
+                if(transicion[i] == valores[i])
+                    return q2();
+            }
+            return null;
+        }else if(valores[iterador-1] == '.')
+            return null;
+        return generarToken();
+    }
+
 
 }

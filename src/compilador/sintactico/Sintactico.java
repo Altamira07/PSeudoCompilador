@@ -32,6 +32,11 @@ public class Sintactico {
     public void setError(String error) {
         this.error = error;
     }
+    public  void analizar()
+    {
+        while (i < tokens.size())
+            instrucciones();
+    }
 
     public void instrucciones (){
         i++;
@@ -43,13 +48,14 @@ public class Sintactico {
                 tk = (i < tokens.size()) ? tokens.get(i) : null;
                 if(tk != null && tk.getLexema().equals("{"))
                     instrucciones();
+                i++;
                 tk = (i < tokens.size()) ? tokens.get(i) : null;
                 if(tk != null && tk.getLexema().equals("}"))
                 {
                     return;
                 }else{
                     tk = tokens.get(i-1);
-                        error +="\n Se esperaba } linea: "+tk.linea+" posicion: "+tk.posicion;
+                    error +="\n Se esperaba } linea: "+tk.linea+" posicion: "+tk.posicion;
                 }
             }else if(tk != null && tk.getLexema().equals("si"))
             {
@@ -74,12 +80,12 @@ public class Sintactico {
             }else if(tk != null && tk.getTipo().equals("Tipo_dato"))
             {
                 declaracion();
+                return;
             }else if (tk != null && tk.getTipo().equals("identificador")) {
                 asignacion();
-            }
-            if(i < tokens.size())
-            instrucciones();
-
+            }else
+                return;
+        instrucciones();
     }
 
     void asignacion(){
@@ -195,6 +201,7 @@ public class Sintactico {
             while (bandera){
                 sentenciaBooleana();
             }
+            bandera = true;
             tk = (i < tokens.size()) ? tokens.get(i) : null;
             if(tk != null && tk.getLexema().equals(")"))
             {
