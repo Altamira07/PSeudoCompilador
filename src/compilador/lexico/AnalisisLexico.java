@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 
 public class AnalisisLexico {
@@ -40,12 +41,22 @@ public class AnalisisLexico {
 	int linea;
 	int posicion;
 	public int id = 0;
+	public void clear()
+	{
+		tb.getTk().clear();
+		error = "";
+		linea = 0;
+		posicion = 0;
+	}
 	public void analizar(File archivo)
 	{
 		Scanner lector;
 		String lineaT = "";
 		Token tk = null;
-
+		linea = 0;
+		posicion = 0;
+		error = "";
+		tb.getTk().clear();
 		try {
 			lector = new Scanner(archivo);
 			while (lector.hasNextLine()) {
@@ -53,14 +64,16 @@ public class AnalisisLexico {
 				lineaT = lector.nextLine();
 				linea++;
 				int i = 0;
-                if(!lineaT.equals(""))
+				char val = (lineaT.length() > 0 ) ? lineaT.charAt(0): '#';
+				String cadena;
+				if(!lineaT.equals("") && val != '#')
                 {
-                    String cadenas[] = lineaT.split(" ");
-                    for(String cadena : cadenas)
+					StringTokenizer st = new StringTokenizer(lineaT," ");
+                    while (st.hasMoreElements())
 				    {
+				    	cadena = st.nextToken();
                         i++;
                         tk = generarToken(cadena);
-                        System.out.print(cadena);
                         if (tk != null) {
                             tk.setId(++id);
 
@@ -69,19 +82,13 @@ public class AnalisisLexico {
                             tk.posicion = i;
                         } else {
                             error += "\n Error lexico: " + cadena+ " posicion: " + i +" linea: "+linea ;
-
-                        }
+		                }
 				    }
                 }
-                System.out.println();
             }
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        //tb.imprimeTabla();
-		System.out.println(error);
-
 	}
 
 	public void linea(String linea) {

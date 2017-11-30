@@ -49,7 +49,7 @@ public class NumerosReales extends Automata
         {
             for(int i =0; i<transicion.length;i++)
             {
-                if(transicion[i] == valores[i])
+                if(transicion[i] == valores[iterador])
                     return q2();
             }
             return null;

@@ -36,7 +36,12 @@ public class Token {
 		this.tipo = tipo;
 		this.lexema = lexema;
 	}
-
+	public Token(){
+		id = 0;
+		idN = 0;
+		tipo = "";
+		lexema = "";
+	}
 	public int getId() {
 		return id;
 	}

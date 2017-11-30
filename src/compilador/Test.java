@@ -3,6 +3,8 @@ package compilador;
 import compilador.lexico.AnalisisLexico;
 import compilador.lexico.Token;
 import compilador.lexico.automatas.NumerosReales;
+import compilador.semantico.Semantico;
+import compilador.semantico.TablaSemantica;
 import compilador.sintactico.Sintactico;
 
 import java.io.File;
@@ -18,17 +20,19 @@ public class Test
 
     static void analisisTest()
     {
-        Sintactico s = new Sintactico(tokensAsignacion());
-        //s.instrucciones();
-        //System.out.println(s.error);
+        Sintactico s = new Sintactico(null);
         AnalisisLexico al = new AnalisisLexico();
-        File f = new File("1.lh");
-        al.analizar(f);
+        File archivo = new File("CasosDeUso/sintactico/caso1.lh");
+        al.analizar(archivo);
+        //al.getTb().imprimeTabla();
         System.out.println(al.getError());
-        al.getTb().imprimeTabla();
         s.setTokens(al.getTb().getTk());
         s.analizar();
         System.out.println(s.getError());
+        TablaSemantica.tablaSemantica.read();
+        Semantico semantico = new Semantico();
+        semantico.analizar();
+        System.out.println(semantico.getError());
     }
     static List<Token> tokensSentencias (){
         List<Token> tokens = new ArrayList<>();

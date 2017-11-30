@@ -23,14 +23,20 @@ public class OperadoresLogicos extends Automata
 			return q1();
 		case '>':
 			return q1();
+        case '|':
+            return q2();
+		case '&':
+			return q3();
 		default:
 			break;
 		}
 		
 		return null;
 	}
-	
-	
+	private Token q2(){ return (iterador<valores.length && valores[iterador++] == '|') ? q4() : null; }
+
+	private Token q3(){ return (iterador<valores.length && valores[iterador++] == '&') ? q4() : null; }
+
 	private Token q1()
 	{
 		return (iterador<valores.length && valores[iterador++] == '=' ) ? q4(): null;

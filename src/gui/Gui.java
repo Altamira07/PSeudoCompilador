@@ -47,7 +47,7 @@ public class Gui extends Application {
     {
         menuBar = new MenuBar();
         root.setTop(menuBar);
-        menuBar.getMenus().addAll(getMenuArchivo(),getMenuCompilar());
+        menuBar.getMenus().addAll(getMenuArchivo(),getMenuCompilar(), getMenuCasosUso());
         //Botones que van a cambiar de color
         btnLexico = new Button("Lexico");
         btnSemantico = new Button("Semantico");
@@ -133,6 +133,30 @@ public class Gui extends Application {
         }
 
     }
+    void abirCasos(String path)
+    {
+        System.out.println(path);
+        archivo = null;
+        archivo = new File("CasosDeUso/"+path);
+        String cadena = "";
+        codeArea.replaceText("");
+        String ed = "";
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(archivo));
+            while ((cadena = br.readLine())!= null){
+                ed+=cadena+"\n";
+            }
+            br.close();
+            codeArea.replaceText(ed);
+        }catch (IOException io){
+            Alert alert  = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("No se pudo abrir");
+            alert.showAndWait();
+        }
+        ventana.setTitle("Compilador luisito -"+archivo.getName());
+
+    }
+
     void guardarDatos()
     {
 
@@ -178,6 +202,98 @@ public class Gui extends Application {
 
     }
 
+    Menu getMenuCasosUso()
+    {
+        Menu menu = new Menu("Casos");
+        //Casos de uso sintactico
+        Menu sintactico = new Menu("Sintactico");
+        CheckMenuItem casoSintactico1 = new CheckMenuItem("Caso 1");
+        casoSintactico1.setOnAction(event -> {
+            abirCasos("sintactico/caso1.lh");
+            casoSintactico1.setSelected(false);
+        });
+        CheckMenuItem casoSintactico2 = new CheckMenuItem("Caso 2");
+        casoSintactico2.setOnAction(event -> {
+            abirCasos("sintactico/caso2.lh");
+            casoSintactico2.setSelected(false);
+        });
+        CheckMenuItem casoSintactico3 = new CheckMenuItem("Caso 3");
+        casoSintactico3.setOnAction(event -> {
+            abirCasos("sintactico/caso3.lh");
+            casoSintactico3.setSelected(false);
+        });
+        CheckMenuItem casoSintactico4 = new CheckMenuItem("Caso 4");
+        casoSintactico4.setOnAction(event -> {
+            abirCasos("sintactico/caso4.lh");
+            casoSintactico4.setSelected(false);
+        });
+        CheckMenuItem casoSintactico5 = new CheckMenuItem("Caso 5");
+        casoSintactico5.setOnAction(event -> {
+            abirCasos("sintactico/caso5.lh");
+            casoSintactico5.setSelected(false);
+        });
+        sintactico.getItems().addAll(casoSintactico1,casoSintactico2,casoSintactico3,casoSintactico4,casoSintactico5);
+        //Casos de uso lexico
+        Menu lexico = new Menu("Lexico");
+        CheckMenuItem casoLexico1 = new CheckMenuItem("Caso 1");
+        casoLexico1.setOnAction(event -> {
+            abirCasos("lexico/caso1.lh");
+            casoLexico1.setSelected(false);
+        });
+        CheckMenuItem casoLexico2 = new CheckMenuItem("Caso 2");
+        casoLexico2.setOnAction(event -> {
+            abirCasos("lexico/caso2.lh");
+            casoLexico2.setSelected(false);
+        });
+        CheckMenuItem casoLexico3 = new CheckMenuItem("Caso 3");
+        casoLexico3.setOnAction(event -> {
+            abirCasos("lexico/caso3.lh");
+            casoLexico3.setSelected(false);
+        });
+        CheckMenuItem casoLexico4 = new CheckMenuItem("Caso 4");
+        casoLexico4.setOnAction(event -> {
+            abirCasos("lexico/caso4.lh");
+            casoLexico4.setSelected(false);
+        });
+        CheckMenuItem casoLexico5 = new CheckMenuItem("Caso 5");
+        casoLexico5.setOnAction(event -> {
+            abirCasos("lexico/caso5.lh");
+            casoLexico5.setSelected(false);
+        });
+        lexico.getItems().addAll(casoLexico1,casoLexico2,casoLexico3,casoLexico4,casoLexico5);
+        //Semantico casos uso
+        Menu semantico = new Menu("Semenatico");
+        CheckMenuItem casoSemantico1 = new CheckMenuItem("Caso 1");
+        casoSemantico1.setOnAction(event -> {
+            abirCasos("semantico/caso1.lh");
+            casoSemantico1.setSelected(false);
+        });
+        CheckMenuItem casoSemantico2 = new CheckMenuItem("Caso 2");
+        casoSemantico2.setOnAction(event -> {
+            abirCasos("semantico/caso2.lh");
+            casoSemantico2.setSelected(false);
+        });
+        CheckMenuItem casoSemantico3 = new CheckMenuItem("Caso 3");
+        casoSemantico3.setOnAction(event -> {
+            abirCasos("semantico/caso3.lh");
+            casoSemantico3.setSelected(false);
+        });
+        CheckMenuItem casoSemantico4 = new CheckMenuItem("Caso 4");
+        casoSemantico4.setOnAction(event -> {
+            abirCasos("semantico/caso4.lh");
+            casoSemantico4.setSelected(false);
+        });
+        CheckMenuItem casoSemantico5 = new CheckMenuItem("Caso 5");
+        casoSemantico5.setOnAction(event -> {
+            abirCasos("semantico/caso5.lh");
+            casoSemantico5.setSelected(false);
+        });
+        semantico.getItems().addAll(casoSemantico1,casoSemantico2,casoSemantico3,casoSemantico4,casoSemantico5);
+        //Agregamos cada menu
+        menu.getItems().addAll(sintactico,lexico,semantico);
+        return menu;
+    }
+
 
     Menu getMenuCompilar()
     {
@@ -186,29 +302,30 @@ public class Gui extends Application {
         run.setOnAction(event -> {
             run();
         });
-        MenuItem lexico = new MenuItem("Lexico");
-        MenuItem sintactico = new MenuItem("sintactico");
-        MenuItem semantico = new MenuItem("semantico");
         menu.getItems().addAll(run);
         return menu;
     }
     void run(){
-        salida.clear();
+        System.out.println("Corriendo"+archivo.getName());
         btnSintactico.setStyle(null);
         btnLexico.setStyle(null);
+
         if(archivo != null)
         {
+            aLexico.clear();
             aLexico.analizar(archivo);
             if(aLexico.getError().equals(""))
             {
                 btnLexico.setStyle(ok);
+                aSintactico.clear();
                 aSintactico.setTokens(aLexico.getTb().getTk());
                 aSintactico.instrucciones();
                 if(aSintactico.getError().equals("")){
                     btnSintactico.setStyle(ok);
                 }else{
                     btnSintactico.setStyle(error);
-                    salida.setText(aSintactico.getError());
+                    System.out.println("Error");
+                    salida.setText("Holi"+aSintactico.getError());
                 }
             }else{
                 btnLexico.setStyle(error);
